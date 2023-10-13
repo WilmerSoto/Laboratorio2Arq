@@ -5,6 +5,7 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=WilmerSoto_Laboratorio2Arq&metric=coverage)](https://sonarcloud.io/summary/new_code?id=WilmerSoto_Laboratorio2Arq)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=WilmerSoto_Laboratorio2Arq&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=WilmerSoto_Laboratorio2Arq)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=WilmerSoto_Laboratorio2Arq&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=WilmerSoto_Laboratorio2Arq)
+[![Known Vulnerabilities](https://snyk.io/test/github/WilmerSoto/Laboratorio2Arq/badge.svg)
 
 Implementation of a Simple App with the next operations:
 * Get random nations
