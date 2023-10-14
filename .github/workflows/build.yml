@@ -106,27 +106,19 @@ jobs:
           name: artifact
           #From this path
           path: target/lab2-0.0.1-SNAPSHOT.jar
-  deploy-ecr:
-    name: Deploy to ECR
-    runs-on: ubuntu-latest
+      - name: Login to docker hub
+        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+      - name: Build docker image
+        run: docker build -t arqsoft/lab2
+      - name: Publish image to docker hub
+        run: docker push arqsoft/lab2:latest
+  deploy:
     needs: build
+    runs-on: [ aws-ec2]
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-region: us-east-1
-          role-to-assume: arn:aws:iam::902097306582:role/LabRole
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-      - name: Build, tag, and push image to Amazon ECR
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ecrlab2arq
-          IMAGE_TAG: latest
-        run: |
-          docker build -t 902097306582.dkr.ecr.us-east-1.amazonaws.com/ecrlab2arq:latest
-          docker push 902097306582.dkr.ecr.us-east-1.amazonaws.com/ecrlab2arq:latest
+      - name: Pull Image from docker hub
+        run: docker pull arqsoft/lab2:latest
+      - name: Delete old container
+        run: docker rm -f lab2arq-container
+      - name: Run docker container
+        run: docker run -d -p 8080:8080 --name lab2arq-container arqsoft/lab2:latest
