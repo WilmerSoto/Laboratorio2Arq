@@ -118,6 +118,7 @@ jobs:
         with:
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::902097306582:role/LabRole
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
