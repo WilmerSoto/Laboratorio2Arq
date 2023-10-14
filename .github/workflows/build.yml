@@ -106,3 +106,22 @@ jobs:
           name: artifact
           #From this path
           path: target/lab2-0.0.1-SNAPSHOT.jar
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build docker image
+        run: docker build -t wsoto23/arqsoft .
+      - name: Publish image to docker hub
+        run: docker push wsoto23/arqsoft:latest
+  deploy:
+    needs: build
+    runs-on: [ aws-ec2]
+    steps:
+      - name: Pull Image from docker hub
+        run: docker pull wsoto23/arqsoft:latest
+      - name: Delete old container
+        run: docker rm -f lab2arq-container
+      - name: Run docker container
+        run: docker run -d -p 8080:8080 --name lab2arq-container wsoto23/arqsoft:latest
