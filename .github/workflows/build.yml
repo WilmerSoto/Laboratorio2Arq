@@ -117,7 +117,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: us-east-1
-          aws-role-arn: arn:aws:iam::902097306582:role/LabRole
+          role-to-assume: arn:aws:iam::902097306582:role/LabRole
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
