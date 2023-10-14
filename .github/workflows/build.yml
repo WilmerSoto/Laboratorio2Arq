@@ -106,3 +106,26 @@ jobs:
           name: artifact
           #From this path
           path: target/lab2-0.0.1-SNAPSHOT.jar
+  deploy-ecr:
+    name: Deploy to ECR
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: us-east-1
+          aws-role-arn: arn:aws:iam::902097306582:role/LabRole
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ecrlab2arq
+          IMAGE_TAG: latest
+        run: |
+          docker build -t 902097306582.dkr.ecr.us-east-1.amazonaws.com/ecrlab2arq:latest
+          docker push 902097306582.dkr.ecr.us-east-1.amazonaws.com/ecrlab2arq:latest
