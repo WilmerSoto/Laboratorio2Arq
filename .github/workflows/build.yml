@@ -120,8 +120,8 @@ jobs:
     runs-on: [ aws-ec2]
     steps:
       - name: Pull Image from docker hub
-        run: docker pull arqsoft/lab2:latest
+        run: docker pull wsoto23/arqsoft:latest
       - name: Delete old container
         run: docker rm -f lab2arq-container
       - name: Run docker container
-        run: docker run -d -p 8080:8080 --name lab2arq-container arqsoft/lab2:latest
+        run: docker run -d -p 8080:8080 --name lab2arq-container wsoto23/arqsoft:latest
